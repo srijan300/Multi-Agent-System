@@ -1,0 +1,945 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+  background: #07111f;
+  color: #ffffff;
+  overflow-x: hidden;
+}
+
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 32%),
+    radial-gradient(circle at top right, rgba(168, 85, 247, 0.18), transparent 28%),
+    linear-gradient(135deg, #07111f 0%, #0f172a 45%, #111827 100%);
+}
+
+.gradient-circle {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(60px);
+  opacity: 0.45;
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  background: #2563eb;
+  top: 8%;
+  left: 5%;
+}
+
+.circle-2 {
+  width: 260px;
+  height: 260px;
+  background: #9333ea;
+  top: 20%;
+  right: 8%;
+}
+
+.circle-3 {
+  width: 220px;
+  height: 220px;
+  background: #14b8a6;
+  bottom: 8%;
+  left: 35%;
+}
+
+.app-container {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 56px 0 30px;
+}
+
+.hero-section {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(16px);
+  color: #c4b5fd;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.hero-section h1 {
+  font-size: clamp(2.2rem, 6vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  margin-bottom: 18px;
+  background: linear-gradient(135deg, #ffffff, #93c5fd, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-section p {
+  max-width: 800px;
+  margin: 0 auto;
+  color: #cbd5e1;
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.planner-card,
+.workflow-section,
+.result-section,
+.approval-section {
+  background: rgba(15, 23, 42, 0.76);
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(20px);
+  border-radius: 28px;
+}
+
+.planner-card,
+.workflow-section,
+.result-section,
+.approval-section {
+  padding: 28px;
+}
+
+.workflow-section,
+.result-section,
+.approval-section {
+  margin-top: 26px;
+}
+
+.card-header,
+.result-header,
+.workflow-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.card-header h2,
+.result-header h2,
+.workflow-header h2,
+.approval-content h2 {
+  font-size: 1.45rem;
+  margin-bottom: 8px;
+}
+
+.card-header p,
+.result-header p,
+.approval-content p {
+  color: #94a3b8;
+  line-height: 1.5;
+}
+
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 18px #22c55e;
+}
+
+.input-area {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: stretch;
+}
+
+textarea {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  border-radius: 22px;
+  background: rgba(2, 6, 23, 0.64);
+  color: #ffffff;
+  padding: 20px;
+  font-size: 1rem;
+  line-height: 1.6;
+  outline: none;
+  transition: 0.25s ease;
+}
+
+textarea:focus {
+  border-color: rgba(96, 165, 250, 0.85);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
+}
+
+textarea::placeholder {
+  color: #64748b;
+}
+
+#sendBtn {
+  min-width: 170px;
+  border: none;
+  border-radius: 22px;
+  padding: 0 24px;
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 18px 38px rgba(37, 99, 235, 0.35);
+  transition: 0.25s ease;
+}
+
+#sendBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 50px rgba(124, 58, 237, 0.4);
+}
+
+#sendBtn:disabled,
+.approve-btn:disabled,
+.revise-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.quick-prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.quick-prompts button {
+  border: 1px solid rgba(148, 163, 184, 0.25);
+  background: rgba(30, 41, 59, 0.7);
+  color: #dbeafe;
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.quick-prompts button:hover {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(96, 165, 250, 0.5);
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 7px;
+  color: #93c5fd;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.guardrail-badge {
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  background: rgba(34, 197, 94, 0.12);
+  color: #86efac;
+  padding: 9px 13px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.guardrail-badge.blocked {
+  border-color: rgba(239, 68, 68, 0.35);
+  background: rgba(239, 68, 68, 0.13);
+  color: #fecaca;
+}
+
+.supervisor-reasoning {
+  color: #cbd5e1;
+  line-height: 1.7;
+  margin-bottom: 18px;
+}
+
+.agent-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.agent-chip {
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  background: rgba(37, 99, 235, 0.13);
+  color: #dbeafe;
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.result-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.copy-btn,
+.download-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 800;
+  transition: 0.25s ease;
+}
+
+.copy-btn {
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  background: rgba(15, 23, 42, 0.9);
+  color: #ffffff;
+}
+
+.copy-btn:hover {
+  background: rgba(59, 130, 246, 0.22);
+}
+
+.print-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #f8fafc;
+  padding: 11px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.print-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.download-btn {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #ffffff;
+  box-shadow: 0 12px 30px rgba(34, 197, 94, 0.25);
+}
+
+.download-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 36px rgba(34, 197, 94, 0.35);
+}
+
+.pdf-content {
+  background: #ffffff;
+  color: #111827;
+  border-radius: 22px;
+  padding: 28px;
+}
+
+/* PDF specific header & footer are hidden on the web interface */
+.pdf-header,
+.pdf-footer {
+  display: none;
+}
+
+/* =========================================================
+   PDF Generation Formatting (Active during html2pdf export)
+   ========================================================= */
+.pdf-content.pdf-exporting {
+  width: 710px !important;
+  max-width: 710px !important;
+  padding: 6px 8px !important;
+  margin: 0 auto !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: #ffffff !important;
+  box-sizing: border-box !important;
+}
+
+.pdf-content.pdf-exporting .pdf-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-end !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 14px !important;
+  border-bottom: 2px solid #2563eb !important;
+}
+
+.pdf-content.pdf-exporting .pdf-brand-tag {
+  display: inline-block !important;
+  font-size: 8.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  color: #2563eb !important;
+  margin-bottom: 2px !important;
+}
+
+.pdf-content.pdf-exporting .pdf-brand-title {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important;
+  margin: 0 !important;
+  line-height: 1.2 !important;
+}
+
+.pdf-content.pdf-exporting .pdf-header-meta {
+  text-align: right !important;
+  font-size: 8.5px !important;
+  color: #64748b !important;
+  line-height: 1.4 !important;
+}
+
+.pdf-content.pdf-exporting .pdf-footer {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding-top: 8px !important;
+  margin-top: 18px !important;
+  border-top: 1px solid #e2e8f0 !important;
+  font-size: 8px !important;
+  color: #94a3b8 !important;
+  page-break-before: avoid !important;
+  break-before: avoid !important;
+}
+
+.pdf-content.pdf-exporting .result-box {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow: visible !important;
+  overflow-x: visible !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.pdf-content.pdf-exporting .result-box h1 {
+  font-size: 15px !important;
+  margin: 12px 0 6px 0 !important;
+  padding-bottom: 4px !important;
+  border-bottom: 2px solid #2563eb !important;
+  color: #0f172a !important;
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+}
+
+.pdf-content.pdf-exporting .result-box h2 {
+  font-size: 12px !important;
+  margin: 11px 0 6px 0 !important;
+  padding: 4px 8px !important;
+  border-left: 3.5px solid #2563eb !important;
+  background: #f1f5f9 !important;
+  border-radius: 4px !important;
+  color: #1e3a8a !important;
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+.pdf-content.pdf-exporting .result-box h3 {
+  font-size: 10.5px !important;
+  margin: 8px 0 3px 0 !important;
+  color: #1d4ed8 !important;
+  page-break-after: avoid !important;
+  break-after: avoid !important;
+}
+
+.pdf-content.pdf-exporting .result-box p {
+  font-size: 9px !important;
+  line-height: 1.42 !important;
+  margin-bottom: 4px !important;
+  color: #334155 !important;
+}
+
+.pdf-content.pdf-exporting .result-box ul,
+.pdf-content.pdf-exporting .result-box ol {
+  font-size: 9px !important;
+  margin: 3px 0 6px 16px !important;
+  padding: 0 !important;
+  color: #334155 !important;
+}
+
+.pdf-content.pdf-exporting .result-box li {
+  margin-bottom: 2px !important;
+  line-height: 1.38 !important;
+}
+
+.pdf-content.pdf-exporting .result-box hr {
+  margin: 8px 0 !important;
+  border-top: 1px solid #e2e8f0 !important;
+}
+
+.pdf-content.pdf-exporting .result-box table {
+  width: 100% !important;
+  max-width: 100% !important;
+  table-layout: auto !important;
+  border-collapse: collapse !important;
+  margin: 6px 0 10px 0 !important;
+  font-size: 8px !important;
+  page-break-inside: auto !important;
+  break-inside: auto !important;
+}
+
+.pdf-content.pdf-exporting .result-box th,
+.pdf-content.pdf-exporting .result-box td {
+  border: 1px solid #cbd5e1 !important;
+  padding: 3.5px 5px !important;
+  line-height: 1.25 !important;
+  text-align: left !important;
+  vertical-align: top !important;
+  word-break: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+.pdf-content.pdf-exporting .result-box th {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+.pdf-content.pdf-exporting .result-box tr {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
+.pdf-content.pdf-exporting .result-box thead {
+  display: table-header-group !important;
+}
+
+.result-box {
+  background: #ffffff;
+  color: #1f2937;
+  border: none;
+  padding: 0;
+  white-space: normal;
+  overflow-x: auto;
+}
+
+.result-box h1,
+.result-box h2,
+.result-box h3 {
+  color: #0f172a;
+  margin-top: 26px;
+  margin-bottom: 12px;
+  line-height: 1.25;
+  font-weight: 800;
+}
+
+.result-box h1:first-child,
+.result-box h2:first-child,
+.result-box h3:first-child {
+  margin-top: 0;
+}
+
+.result-box h1 {
+  font-size: 2rem;
+  border-bottom: 3px solid #2563eb;
+  padding-bottom: 10px;
+}
+
+.result-box h2 {
+  font-size: 1.45rem;
+  border-left: 5px solid #2563eb;
+  padding: 10px 0 10px 12px;
+  background: #eff6ff;
+  border-radius: 10px;
+}
+
+.result-box h3 {
+  font-size: 1.15rem;
+  color: #1d4ed8;
+}
+
+.result-box p {
+  margin-bottom: 14px;
+  line-height: 1.75;
+  color: #374151;
+}
+
+.result-box ul,
+.result-box ol {
+  margin: 10px 0 18px 24px;
+  color: #374151;
+}
+
+.result-box li {
+  margin-bottom: 8px;
+  line-height: 1.65;
+}
+
+.result-box strong {
+  color: #111827;
+  font-weight: 800;
+}
+
+.result-box hr {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 24px 0;
+}
+
+.result-box table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 18px 0;
+  color: #374151;
+}
+
+.result-box th,
+.result-box td {
+  border: 1px solid #e5e7eb;
+  padding: 10px;
+  text-align: left;
+}
+
+.result-box th {
+  background: #eff6ff;
+  color: #111827;
+  font-weight: 800;
+}
+
+.approval-section {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 20px;
+  border-color: rgba(245, 158, 11, 0.35);
+  background: linear-gradient(
+    135deg,
+    rgba(120, 53, 15, 0.25),
+    rgba(15, 23, 42, 0.82)
+  );
+}
+
+.approval-icon {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  background: rgba(245, 158, 11, 0.16);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  font-size: 1.5rem;
+}
+
+.feedback-input {
+  min-height: 105px;
+  margin-top: 18px;
+  border-radius: 16px;
+}
+
+.approval-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.approve-btn,
+.revise-btn {
+  border: none;
+  border-radius: 13px;
+  padding: 12px 18px;
+  color: #ffffff;
+  font-weight: 850;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.approve-btn {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  box-shadow: 0 12px 28px rgba(34, 197, 94, 0.25);
+}
+
+.revise-btn {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  box-shadow: 0 12px 28px rgba(245, 158, 11, 0.22);
+}
+
+.approve-btn:hover,
+.revise-btn:hover {
+  transform: translateY(-1px);
+}
+
+.error-box {
+  margin-top: 22px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: rgba(239, 68, 68, 0.13);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fecaca;
+  line-height: 1.5;
+}
+
+.loader {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
+
+.hidden {
+  display: none !important;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  padding: 30px 16px 40px;
+  font-size: 0.92rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm 10mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #1e293b !important;
+  }
+
+  .planner-card,
+  .workflow-section,
+  .approval-section,
+  .hero-section,
+  footer,
+  .result-actions,
+  .result-header,
+  #errorBox {
+    display: none !important;
+  }
+
+  .app-container {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .result-section {
+    box-shadow: none !important;
+    border: none !important;
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .pdf-content {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .pdf-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    padding-bottom: 8pt !important;
+    margin-bottom: 12pt !important;
+    border-bottom: 2pt solid #2563eb !important;
+  }
+
+  .pdf-brand-tag {
+    display: inline-block !important;
+    font-size: 8pt !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    color: #2563eb !important;
+    letter-spacing: 0.5pt !important;
+  }
+
+  .pdf-brand-title {
+    font-size: 16pt !important;
+    font-weight: 800 !important;
+    color: #0f172a !important;
+    margin: 2pt 0 0 0 !important;
+  }
+
+  .pdf-header-meta {
+    text-align: right !important;
+    font-size: 8pt !important;
+    color: #64748b !important;
+    line-height: 1.4 !important;
+  }
+
+  .pdf-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding-top: 8pt !important;
+    margin-top: 14pt !important;
+    border-top: 1pt solid #cbd5e1 !important;
+    font-size: 7.5pt !important;
+    color: #94a3b8 !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+  }
+
+  .result-box {
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .result-box h1 {
+    font-size: 14pt !important;
+    margin: 10pt 0 5pt !important;
+    padding-bottom: 3pt !important;
+    border-bottom: 1.5pt solid #2563eb !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .result-box h2 {
+    font-size: 11pt !important;
+    margin: 9pt 0 4pt !important;
+    padding: 3pt 5pt !important;
+    background: #f1f5f9 !important;
+    border-left: 3pt solid #2563eb !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .result-box h3 {
+    font-size: 9.5pt !important;
+    margin: 7pt 0 3pt !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .result-box p {
+    font-size: 8.5pt !important;
+    line-height: 1.42 !important;
+    margin: 2pt 0 4pt !important;
+  }
+
+  .result-box ul,
+  .result-box ol {
+    font-size: 8.5pt !important;
+    margin: 2pt 0 5pt 12pt !important;
+  }
+
+  .result-box li {
+    margin-bottom: 2pt !important;
+    line-height: 1.38 !important;
+  }
+
+  .result-box table {
+    width: 100% !important;
+    max-width: 100% !important;
+    table-layout: auto !important;
+    border-collapse: collapse !important;
+    margin: 5pt 0 8pt 0 !important;
+    font-size: 7.5pt !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+  }
+
+  .result-box th,
+  .result-box td {
+    border: 0.5pt solid #cbd5e1 !important;
+    padding: 2.5pt 3.5pt !important;
+    line-height: 1.25 !important;
+    vertical-align: top !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .result-box th {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    font-weight: 700 !important;
+  }
+
+  .result-box tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .result-box thead {
+    display: table-header-group !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-container {
+    padding-top: 34px;
+  }
+
+  .planner-card,
+  .workflow-section,
+  .result-section,
+  .approval-section {
+    padding: 20px;
+    border-radius: 22px;
+  }
+
+  .card-header,
+  .result-header,
+  .workflow-header {
+    flex-direction: column;
+  }
+
+  .input-area {
+    grid-template-columns: 1fr;
+  }
+
+  #sendBtn {
+    min-height: 56px;
+  }
+
+  .hero-section p {
+    font-size: 1rem;
+  }
+
+  .result-actions,
+  .approval-actions {
+    width: 100%;
+  }
+
+  .copy-btn,
+  .print-btn,
+  .download-btn,
+  .approve-btn,
+  .revise-btn {
+    flex: 1;
+  }
+
+  .pdf-content {
+    padding: 20px;
+  }
+
+  .approval-section {
+    grid-template-columns: 1fr;
+  }
+}
