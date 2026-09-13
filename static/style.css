@@ -366,9 +366,9 @@ textarea::placeholder {
    PDF Generation Formatting (Active during html2pdf export)
    ========================================================= */
 .pdf-content.pdf-exporting {
-  width: 710px !important;
-  max-width: 710px !important;
-  padding: 8px 12px !important;
+  width: 750px !important;
+  max-width: 750px !important;
+  padding: 12px 16px !important;
   margin: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;

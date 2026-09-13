@@ -294,13 +294,12 @@ function downloadPDF() {
   }
 
   // Clone into an isolated sandbox positioned strictly at top:0, left:0
-  // This completely eliminates coordinate displacement and left-margin clipping bugs in html2canvas!
   const sandbox = document.createElement("div");
   sandbox.id = "pdf-sandbox";
   sandbox.style.position = "fixed";
   sandbox.style.top = "0px";
   sandbox.style.left = "0px";
-  sandbox.style.width = "710px";
+  sandbox.style.width = "750px";
   sandbox.style.margin = "0";
   sandbox.style.padding = "0";
   sandbox.style.zIndex = "-99999";
@@ -323,6 +322,12 @@ function downloadPDF() {
       scale: 2,
       useCORS: true,
       backgroundColor: "#ffffff",
+      width: 750,
+      windowWidth: 750,
+      scrollX: 0,
+      scrollY: 0,
+      x: 0,
+      y: 0,
       logging: false
     },
     jsPDF: {
