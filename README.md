@@ -357,12 +357,11 @@ The repository includes a ready-to-use [`render.yaml`](render.yaml) blueprint:
 
 ## 🖨️ PDF & Print Engine
 
-TripMate AI includes an automated PDF generation layout:
-- **Zero Horizontal Clipping**: Tables automatically wrap content with `word-break` and compact padding, fitting comfortably on A4 paper (190mm printable width).
-- **Intelligent Page Breaks**: Removed blanket `avoid-all` mode; table rows (`tr`) and headers (`h1-h3`) use `page-break-inside: avoid` and `page-break-after: avoid`, eliminating awkward text splitting and giant empty gaps.
-- **Dual Export Options**:
-  - Click **Download PDF** for an instant client-rendered `.pdf` download via `html2pdf.js`.
-  - Click **Print** to open the browser's native print preview with vector text fidelity and repetition of table headers (`thead`).
+TripMate AI includes an automated print & PDF generation layout:
+- **Vector Fidelity & Zero Clipping**: Powered by the browser's native print engine (`@media print`), ensuring 100% crisp vector text, selectable fonts, and razor-sharp borders.
+- **Balanced Margins**: Cleanly centered layout across standard A4 portrait pages with 10mm margins on both sides.
+- **Intelligent Page Breaks**: Table rows (`tr`) and headings (`h1-h3`) use `page-break-inside: avoid` and `page-break-after: avoid`, eliminating awkward text splitting and repeating table headers (`thead`).
+- **Save as PDF**: Simply click **🖨️ Print / Save as PDF** in the results header, select **Destination: Save as PDF**, and save your travel itinerary.
 
 ---
 
