@@ -368,8 +368,8 @@ textarea::placeholder {
 .pdf-content.pdf-exporting {
   width: 710px !important;
   max-width: 710px !important;
-  padding: 6px 8px !important;
-  margin: 0 auto !important;
+  padding: 8px 12px !important;
+  margin: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   background: #ffffff !important;

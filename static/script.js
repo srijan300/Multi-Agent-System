@@ -276,7 +276,7 @@ function downloadPDF() {
 
   const downloadBtn = document.querySelector(".download-btn");
   const oldText = downloadBtn.textContent;
-  downloadBtn.textContent = "Preparing PDF...";
+  downloadBtn.textContent = "Generating PDF...";
   downloadBtn.disabled = true;
 
   const dateEl = document.getElementById("pdfGeneratedDate");
@@ -293,8 +293,24 @@ function downloadPDF() {
     threadEl.textContent = "Thread: " + (currentThreadId ? currentThreadId.slice(0, 12) : "N/A");
   }
 
-  // Apply dedicated print/export formatting to eliminate page overflow and awkward cuts
-  pdfContent.classList.add("pdf-exporting");
+  // Clone into an isolated sandbox positioned strictly at top:0, left:0
+  // This completely eliminates coordinate displacement and left-margin clipping bugs in html2canvas!
+  const sandbox = document.createElement("div");
+  sandbox.id = "pdf-sandbox";
+  sandbox.style.position = "fixed";
+  sandbox.style.top = "0px";
+  sandbox.style.left = "0px";
+  sandbox.style.width = "710px";
+  sandbox.style.margin = "0";
+  sandbox.style.padding = "0";
+  sandbox.style.zIndex = "-99999";
+  sandbox.style.background = "#ffffff";
+  sandbox.style.overflow = "visible";
+
+  const clone = pdfContent.cloneNode(true);
+  clone.classList.add("pdf-exporting");
+  sandbox.appendChild(clone);
+  document.body.appendChild(sandbox);
 
   const options = {
     margin: [10, 10, 10, 10], // 10mm margins
@@ -307,9 +323,7 @@ function downloadPDF() {
       scale: 2,
       useCORS: true,
       backgroundColor: "#ffffff",
-      scrollX: 0,
-      scrollY: 0,
-      windowWidth: 800
+      logging: false
     },
     jsPDF: {
       unit: "mm",
@@ -324,16 +338,16 @@ function downloadPDF() {
 
   html2pdf()
     .set(options)
-    .from(pdfContent)
+    .from(clone)
     .save()
     .then(() => {
-      pdfContent.classList.remove("pdf-exporting");
+      sandbox.remove();
       downloadBtn.textContent = oldText;
       downloadBtn.disabled = false;
     })
     .catch((err) => {
       console.error("PDF download failed:", err);
-      pdfContent.classList.remove("pdf-exporting");
+      sandbox.remove();
       downloadBtn.textContent = oldText;
       downloadBtn.disabled = false;
       showError("Could not download PDF. Try the Print button to Save as PDF.");
