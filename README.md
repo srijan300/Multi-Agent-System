@@ -1,11 +1,15 @@
 # ✈️ TripMate AI — Multi-Agent Travel Planner
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Render-46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)](https://multi-agent-system-tl4k.onrender.com/)
+
 [![Python Version](https://img.shields.io/badge/Python-3.11%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.136-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![LangGraph](https://img.shields.io/badge/LangGraph-1.2.2-orange.svg?logo=langchain&logoColor=white)](https://langchain-ai.github.io/langgraph/)
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Protocol-purple.svg)](https://modelcontextprotocol.io/)
 [![Groq](https://img.shields.io/badge/Groq-Cloud-f55036.svg)](https://groq.com/)
 [![Neon PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-00E599.svg?logo=postgresql&logoColor=white)](https://neon.tech/)
+
+> 🌐 **Live URL**: [https://multi-agent-system-tl4k.onrender.com/](https://multi-agent-system-tl4k.onrender.com/)
 
 **TripMate AI** is a production-grade, autonomous travel planning system built on **LangGraph**, **FastAPI**, and the **Model Context Protocol (MCP)**. It coordinates specialized autonomous agents to research live flights, hotels, real-time weather forecasts, calculate realistic budgets, and craft comprehensive day-by-day itineraries with Human-in-the-Loop (HITL) approval and persistent checkpointing in Neon PostgreSQL.
 
@@ -339,11 +343,15 @@ docker run -p 8000:8000 --env-file .env tripmate-ai
 
 ### Deploy to Render
 
+- 🌐 **Production Live URL**: [https://multi-agent-system-tl4k.onrender.com/](https://multi-agent-system-tl4k.onrender.com/)
+
 The repository includes a ready-to-use [`render.yaml`](render.yaml) blueprint:
 1. Push the repository to GitHub.
 2. Link the repository to [Render.com](https://render.com/).
 3. Add your environment variables in the Render dashboard.
 4. Deploy as a Web Service!
+
+> ⚡ **Auto-Deploy**: Render automatically detects each new commit pushed to the `main` branch on GitHub, rebuilds the project, and redeploys it with zero downtime.
 
 ---
 
