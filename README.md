@@ -19,7 +19,6 @@
   - [Part 1: Simple Sequential Architecture (Without MCP)](#part-1-simple-sequential-architecture-without-mcp)
   - [Part 2: Tool-Augmented Architecture (Using MCP)](#part-2-tool-augmented-architecture-using-mcp)
   - [Part 3: Enterprise Multi-Agent System (Supervisor + Guardrails + HITL)](#part-3-enterprise-multi-agent-system-supervisor--guardrails--hitl)
-- [LangGraph Workflow Diagram](#-langgraph-workflow-diagram)
 - [Specialized Agents Breakdown](#-specialized-agents-breakdown)
 - [Model Context Protocol (MCP) Integration](#-model-context-protocol-mcp-integration)
 - [Repository Structure](#-repository-structure)
@@ -93,44 +92,6 @@ The production architecture implements an autonomous multi-agent graph with guar
   4. **Approval Interruption (HITL)**: Pauses execution with `interrupt()`, presenting a draft itinerary and cost breakdown to the user.
   5. **Resume / Revise**: If approved, finalizes the plan; if revised, incorporates feedback back into the synthesis node.
   6. **Neon Postgres Checkpointer**: Automatically captures state transitions per `thread_id`.
-
----
-
-## 🔄 LangGraph Workflow Diagram
-
-Below is the complete state graph execution flow executed in `backend.py`:
-
-```mermaid
-flowchart TD
-    START([User Input / START]) --> GuardrailNode[🛡️ Input Guardrail]
-    
-    GuardrailNode -- Blocked (Off-topic) --> EndBlocked([Return Guardrail Reason / END])
-    GuardrailNode -- Allowed --> SupervisorNode[🧠 Supervisor Router]
-    
-    SupervisorNode --> RouteDecision{Dynamic Router}
-    
-    RouteDecision -->|Selected| FlightAgent[✈️ Flight Agent]
-    RouteDecision -->|Selected| HotelAgent[🏨 Hotel Agent]
-    RouteDecision -->|Selected| WeatherAgent[🌦️ Weather Agent]
-    RouteDecision -->|Selected| BudgetAgent[💰 Budget Agent]
-    
-    FlightAgent --> SpecialistSync[Specialist Synthesis]
-    HotelAgent --> SpecialistSync
-    WeatherAgent --> SpecialistSync
-    BudgetAgent --> SpecialistSync
-    
-    SpecialistSync --> ApprovalNode[👤 HITL Approval Gate]
-    
-    ApprovalNode --> InterruptPause{LangGraph interrupt()}
-    
-    InterruptPause -- User Requests Revision --> ReviseState[Incorporate Human Feedback]
-    ReviseState --> ItineraryAgent[🗓️ Itinerary Agent]
-    
-    InterruptPause -- User Approves --> ItineraryAgent
-    
-    ItineraryAgent --> PostgresCheckpointer[(Neon PostgreSQL Saver)]
-    PostgresCheckpointer --> FinalResponse([Final Verified Travel Plan / END])
-```
 
 ---
 
