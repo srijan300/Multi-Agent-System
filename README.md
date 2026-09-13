@@ -6,7 +6,6 @@
 [![Model Context Protocol](https://img.shields.io/badge/MCP-Protocol-purple.svg)](https://modelcontextprotocol.io/)
 [![Groq](https://img.shields.io/badge/Groq-Cloud-f55036.svg)](https://groq.com/)
 [![Neon PostgreSQL](https://img.shields.io/badge/Neon-PostgreSQL-00E599.svg?logo=postgresql&logoColor=white)](https://neon.tech/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **TripMate AI** is a production-grade, autonomous travel planning system built on **LangGraph**, **FastAPI**, and the **Model Context Protocol (MCP)**. It coordinates specialized autonomous agents to research live flights, hotels, real-time weather forecasts, calculate realistic budgets, and craft comprehensive day-by-day itineraries with Human-in-the-Loop (HITL) approval and persistent checkpointing in Neon PostgreSQL.
 
@@ -356,12 +355,6 @@ TripMate AI includes an automated PDF generation layout:
 - **Dual Export Options**:
   - Click **Download PDF** for an instant client-rendered `.pdf` download via `html2pdf.js`.
   - Click **Print** to open the browser's native print preview with vector text fidelity and repetition of table headers (`thead`).
-
----
-
-## 📄 License
-
-Distributed under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
