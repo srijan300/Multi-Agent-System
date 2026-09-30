@@ -13,6 +13,7 @@ import asyncio
 import json
 import psycopg
 from psycopg.rows import dict_row
+from psycopg_pool import ConnectionPool
 from langgraph.graph import StateGraph, START, END
 from langgraph.checkpoint.postgres import PostgresSaver
 from langgraph.types import Command, interrupt
@@ -381,10 +382,36 @@ def hotel_agent(state: TravelState):
     )
 
     try:
-        hotel_results = asyncio.run(
+        hotel_raw = asyncio.run(
             tavily_mcp_search(query)
         )
-        hotel_results = str(hotel_results)[:1200]
+        hotel_results = ""
+        try:
+            items = []
+            if isinstance(hotel_raw, list) and len(hotel_raw) > 0:
+                first = hotel_raw[0]
+                text_content = getattr(first, "text", None) or (first.get("text") if isinstance(first, dict) else str(first))
+                if text_content:
+                    parsed = json.loads(text_content)
+                    items = parsed.get("results", [])
+            elif isinstance(hotel_raw, dict):
+                items = hotel_raw.get("results", [])
+
+            if items:
+                lines = []
+                for it in items[:4]:
+                    t = it.get("title", "").strip()
+                    c = it.get("content", "").strip()
+                    u = it.get("url", "").strip()
+                    if t:
+                        lines.append(f"### {t}\n{c}\n[View Listing & Rates]({u})\n")
+                if lines:
+                    hotel_results = "\n".join(lines)
+        except Exception:
+            pass
+
+        if not hotel_results:
+            hotel_results = str(hotel_raw)[:1200]
 
     except Exception as exc:
         print(
@@ -736,15 +763,18 @@ graph.add_edge("final_agent", END)
 graph.add_edge("guardrail_blocked", END)
 
 # =========================
-# PostgreSQL Checkpointer - original persistence kept
+# PostgreSQL Checkpointer - connection pool with auto-reconnect for Neon
 # =========================
 DATABASE_URL = get_database_url()
-_conn = psycopg.connect(
-    DATABASE_URL,
-    autocommit=True,
-    row_factory=dict_row,
+_pool = ConnectionPool(
+    conninfo=DATABASE_URL,
+    kwargs={"autocommit": True, "row_factory": dict_row},
+    min_size=1,
+    max_size=5,
+    max_idle=300,
+    check=ConnectionPool.check_connection,
 )
-checkpointer = PostgresSaver(_conn)
+checkpointer = PostgresSaver(_pool)
 checkpointer.setup()
 
 travel_graph = graph.compile(checkpointer=checkpointer)

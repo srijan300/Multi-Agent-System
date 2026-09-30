@@ -3,97 +3,409 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TripMate AI</title>
+  <title>TripMate AI — Autonomous Multi-Agent Travel Planner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css">
 </head>
-<body>
-  <div class="page-bg">
+<body class="dark-theme">
+  <!-- Ambient background glow layers -->
+  <div class="page-bg" aria-hidden="true">
     <div class="gradient-circle circle-1"></div>
     <div class="gradient-circle circle-2"></div>
     <div class="gradient-circle circle-3"></div>
+    <div class="grid-overlay"></div>
   </div>
 
-  <main class="app-container">
-    <section class="hero-section">
-      <div class="badge">
-        ✈️ TripMate AI — LangGraph, MCP, Supervisor, Guardrails & HITL
+  <!-- Top Navigation Bar -->
+  <header class="top-nav">
+    <div class="nav-container">
+      <div class="brand-group">
+        <div class="brand-logo">
+          <span class="logo-icon">✈️</span>
+        </div>
+        <div>
+          <span class="brand-name">TripMate <span class="brand-accent">AI</span></span>
+          <span class="brand-sub">Multi-Agent Planner</span>
+        </div>
       </div>
-      <h1>Plan Your Perfect Trip with AI</h1>
-      <p>
-        Search flights, discover hotels, check weather, assess your budget,
-        and review the AI-generated draft before the final itinerary is created.
+
+      <div class="nav-actions">
+        <div class="status-indicator">
+          <span class="pulse-dot"></span>
+          <span class="status-label">FastMCP & LangGraph Online</span>
+        </div>
+
+        <button id="themeToggleBtn" class="nav-btn theme-btn" onclick="toggleTheme()" title="Toggle Dark / Light Theme">
+          <span id="themeIcon">☀️</span>
+          <span id="themeLabel" class="theme-text">Light Mode</span>
+        </button>
+
+        <button class="nav-btn reset-btn" onclick="resetPlanner()" title="Start a fresh trip query">
+          <span>🔄 New Trip</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-container">
+    <!-- Hero Header -->
+    <section class="hero-section">
+      <div class="eyebrow-badge">
+        <span class="sparkle">✨</span> Autonomous Multi-Agent Orchestration • Supervisor • FastMCP • LangGraph
+      </div>
+      <h1>Plan Your Journey With <span class="gradient-text">Intelligent Agents</span></h1>
+      <p class="hero-subtitle">
+        Coordinated specialist agents synthesize flights, accommodations, live weather forecasts,
+        and budget feasibility into a personalized itinerary with Human-in-the-Loop review.
       </p>
     </section>
 
-    <section class="planner-card">
+    <!-- Interactive Planner Input Card -->
+    <section class="planner-card glass-panel">
       <div class="card-header">
-        <div>
-          <h2>Where do you want to go?</h2>
-          <p>
-            Example: Plan a complete 7 days Japan trip from Kolkata under 2 lakhs.
-          </p>
+        <div class="header-titles">
+          <h2>Describe Your Dream Trip</h2>
+          <p>Provide destination, origin, duration, style, and budget constraints.</p>
         </div>
-        <div class="status-pill">
-          <span class="status-dot"></span>
-          Online
+        <div class="input-badge">
+          <span>⚡ Groq LPU Powered</span>
         </div>
       </div>
 
-      <div class="input-area">
+      <div class="input-container">
         <textarea
           id="userInput"
-          placeholder="Plan a complete 7 days Japan trip from Kolkata including flights, hotels and sightseeing under 2 lakhs..."
+          placeholder="e.g. Plan a complete 7 days Japan trip from Kolkata including flights, hotels and sightseeing under 2 lakhs..."
+          rows="4"
         ></textarea>
-        <button id="sendBtn" onclick="sendMessage()">
-          <span id="btnText">Generate Draft</span>
-          <span id="btnLoader" class="loader hidden"></span>
-        </button>
+
+        <div class="input-footer">
+          <div class="shortcut-hint">
+            <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to submit
+          </div>
+          <button id="sendBtn" class="primary-btn" onclick="sendMessage()">
+            <span id="btnText" class="btn-inner">
+              <span class="btn-icon">🚀</span>
+              <span>Generate Travel Plan</span>
+            </span>
+            <span id="btnLoader" class="loader hidden"></span>
+          </button>
+        </div>
       </div>
 
-      <div class="quick-prompts">
-        <button onclick="setPrompt('Plan a complete 7 days Japan trip from Kolkata including flights, hotels and sightseeing under 2 lakhs.')">
-          Japan Trip
-        </button>
-        <button onclick="setPrompt('Plan a 5 days Dubai trip from Kolkata with flights, hotels and sightseeing.')">
-          Dubai Trip
-        </button>
-        <button onclick="setPrompt('Plan a 7 days Thailand trip from Kolkata with budget hotels and sightseeing.')">
-          Thailand Trip
-        </button>
-        <button onclick="setPrompt('Give me all country flight info from Kolkata.')">
-          Global Flights
-        </button>
+      <div class="quick-prompts-wrapper">
+        <span class="quick-label">Popular Prompts:</span>
+        <div class="quick-prompts">
+          <button class="prompt-chip" onclick="setPrompt('Plan a complete 7 days Japan trip from Kolkata including flights, hotels and sightseeing under 2 lakhs.')">
+            🌸 7-Day Japan from Kolkata
+          </button>
+          <button class="prompt-chip" onclick="setPrompt('Plan a 5 days luxury Dubai trip from Kolkata with premium hotels, desert safari and skyline dining.')">
+            🏙️ 5-Day Luxury Dubai
+          </button>
+          <button class="prompt-chip" onclick="setPrompt('Plan a 7 days Thailand beach & culture trip from Kolkata with budget stays and island hopping under 1.2 lakhs.')">
+            🏝️ 7-Day Thailand Explorer
+          </button>
+          <button class="prompt-chip" onclick="setPrompt('Plan a 6 days Switzerland scenic train trip from Kolkata with Alpine hiking and budget advice.')">
+            🏔️ 6-Day Swiss Alps Tour
+          </button>
+        </div>
       </div>
     </section>
 
-    <section id="workflowSection" class="workflow-section hidden">
+    <!-- Multi-Agent Orchestration & Workflow Section -->
+    <section id="workflowSection" class="workflow-section glass-panel hidden">
       <div class="workflow-header">
-        <div>
-          <span class="eyebrow">Supervisor Agent</span>
-          <h2>Execution Plan</h2>
+        <div class="header-titles">
+          <div class="pill-tag">
+            <span class="pill-dot"></span> Supervisor Routing Engine
+          </div>
+          <h2>Multi-Agent Orchestration Timeline</h2>
         </div>
-        <span id="guardrailBadge" class="guardrail-badge">Guardrail passed</span>
+        <div id="guardrailBadge" class="guardrail-badge">
+          <span class="badge-icon">🛡️</span>
+          <span id="guardrailText">Guardrail Passed</span>
+        </div>
       </div>
-      <p id="supervisorReasoning" class="supervisor-reasoning"></p>
-      <div id="agentChips" class="agent-chips"></div>
+
+      <!-- Live Pipeline Stepper -->
+      <div class="agent-stepper" id="agentStepper">
+        <div class="step-node" id="step-supervisor" data-agent="supervisor">
+          <div class="step-icon">🧭</div>
+          <div class="step-details">
+            <span class="step-name">Supervisor</span>
+            <span class="step-status">Planning</span>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step-node" id="step-flight" data-agent="flight_agent">
+          <div class="step-icon">✈️</div>
+          <div class="step-details">
+            <span class="step-name">Flight Agent</span>
+            <span class="step-status">Pending</span>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step-node" id="step-hotel" data-agent="hotel_agent">
+          <div class="step-icon">🏨</div>
+          <div class="step-details">
+            <span class="step-name">Hotel Agent</span>
+            <span class="step-status">Pending</span>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step-node" id="step-weather" data-agent="weather_agent">
+          <div class="step-icon">🌦️</div>
+          <div class="step-details">
+            <span class="step-name">Weather Agent</span>
+            <span class="step-status">Pending</span>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step-node" id="step-budget" data-agent="budget_agent">
+          <div class="step-icon">💰</div>
+          <div class="step-details">
+            <span class="step-name">Budget Agent</span>
+            <span class="step-status">Pending</span>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+
+        <div class="step-node" id="step-itinerary" data-agent="itinerary_agent">
+          <div class="step-icon">🗓️</div>
+          <div class="step-details">
+            <span class="step-name">Itinerary Agent</span>
+            <span class="step-status">Pending</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Activity Banner -->
+      <div id="liveActivityBanner" class="live-activity-banner">
+        <div class="live-pulse"></div>
+        <span id="liveActivityText" class="live-text">Supervisor routing requests to specialist agents...</span>
+      </div>
+
+      <div class="reasoning-card">
+        <span class="reasoning-title">Routing Decisions & Constraints:</span>
+        <p id="supervisorReasoning" class="supervisor-reasoning">Awaiting query...</p>
+        <div id="agentChips" class="agent-chips"></div>
+      </div>
     </section>
 
-    <section id="resultSection" class="result-section hidden">
-      <div class="result-header">
-        <div>
+    <!-- 1. Result Layer: Draft Travel Plan Appears FIRST so user can review it -->
+    <section id="resultSection" class="result-section glass-panel hidden">
+      <!-- Result Control Bar -->
+      <div class="result-topbar">
+        <div class="plan-header-info">
+          <div class="plan-status-pill" id="planStatusPill">
+            <span class="status-indicator-dot"></span>
+            <span id="planStatusText">Draft Itinerary</span>
+          </div>
           <h2 id="resultTitle">Your AI Travel Plan</h2>
-          <p id="threadInfo">Thread ID: -</p>
+          <div class="meta-tag-row">
+            <span class="meta-tag" id="threadInfoTag">🆔 Thread: -</span>
+            <span class="meta-tag" id="destinationTag">📍 Destination: Detected</span>
+            <span class="meta-tag" id="durationTag">⏱️ Duration: 7 Days</span>
+          </div>
         </div>
-        <div class="result-actions">
-          <button class="copy-btn" onclick="copyResult()">📋 Copy</button>
-          <button class="print-btn" onclick="printPlan()" title="Open print preview to Save as PDF with crisp vector text">🖨️ Print / Save as PDF</button>
+
+        <div class="topbar-actions">
+          <!-- Currency Converter Widget -->
+          <div class="currency-converter" title="Switch display currency for budget estimates">
+            <span class="currency-label">Currency:</span>
+            <div class="currency-pill-group">
+              <button class="curr-btn active" data-curr="INR" onclick="setCurrency('INR')">INR (₹)</button>
+              <button class="curr-btn" data-curr="USD" onclick="setCurrency('USD')">USD ($)</button>
+              <button class="curr-btn" data-curr="EUR" onclick="setCurrency('EUR')">EUR (€)</button>
+              <button class="curr-btn" data-curr="THB" onclick="setCurrency('THB')">THB (฿)</button>
+              <button class="curr-btn" data-curr="JPY" onclick="setCurrency('JPY')">JPY (¥)</button>
+            </div>
+          </div>
+
+          <!-- Export & Share Dropdown Suite -->
+          <div class="export-dropdown-wrapper">
+            <button id="exportDropdownBtn" class="export-suite-btn" onclick="toggleExportMenu()">
+              <span>📤 Export & Share</span>
+              <span class="chevron-icon">▾</span>
+            </button>
+            <div id="exportMenu" class="export-menu hidden">
+              <button class="export-menu-item" onclick="printPlan()">
+                <span class="menu-icon">🖨️</span>
+                <div class="menu-label">
+                  <strong>Download PDF / Print</strong>
+                  <small>Crisp vector format travel booklet</small>
+                </div>
+              </button>
+              <button class="export-menu-item" onclick="exportMarkdownFile()">
+                <span class="menu-icon">📝</span>
+                <div class="menu-label">
+                  <strong>Export to Markdown (.md)</strong>
+                  <small>Raw itinerary document file</small>
+                </div>
+              </button>
+              <button class="export-menu-item" onclick="copyShareableLink()">
+                <span class="menu-icon">🔗</span>
+                <div class="menu-label">
+                  <strong>Copy Shareable Thread Link</strong>
+                  <small>Direct browser link with state ID</small>
+                </div>
+              </button>
+              <button class="export-menu-item" onclick="copyResult()">
+                <span class="menu-icon">📋</span>
+                <div class="menu-label">
+                  <strong>Copy Text to Clipboard</strong>
+                  <small>Plain text clipboard copy</small>
+                </div>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
+      <!-- Segmented Tab Navigation Bar -->
+      <nav class="itinerary-nav-tabs">
+        <button class="tab-btn active" data-tab="tab-itinerary" onclick="switchTab('tab-itinerary')">
+          <span class="tab-icon">🗓️</span> Day-by-Day Itinerary
+        </button>
+        <button class="tab-btn" data-tab="tab-budget" onclick="switchTab('tab-budget')">
+          <span class="tab-icon">💰</span> Budget Breakdown
+        </button>
+        <button class="tab-btn" data-tab="tab-flights" onclick="switchTab('tab-flights')">
+          <span class="tab-icon">✈️</span> Flights & Route
+        </button>
+        <button class="tab-btn" data-tab="tab-hotels" onclick="switchTab('tab-hotels')">
+          <span class="tab-icon">🏨</span> Stays & Lodging
+        </button>
+        <button class="tab-btn" data-tab="tab-weather" onclick="switchTab('tab-weather')">
+          <span class="tab-icon">🌦️</span> Weather & Packing
+        </button>
+        <button class="tab-btn" data-tab="tab-full" onclick="switchTab('tab-full')">
+          <span class="tab-icon">📄</span> Full Document
+        </button>
+      </nav>
+
+      <!-- Tab 1: Day-by-Day Accordion View -->
+      <div id="tab-itinerary" class="tab-pane active">
+        <div class="tab-pane-header">
+          <div>
+            <h3>Interactive Day-by-Day Schedule</h3>
+            <p>Click on any day to expand activities, timings, and navigation details.</p>
+          </div>
+          <div class="accordion-controls">
+            <button class="mini-btn" onclick="toggleAllAccordions(true)">Expand All</button>
+            <button class="mini-btn" onclick="toggleAllAccordions(false)">Collapse All</button>
+          </div>
+        </div>
+        <div id="dayAccordionContainer" class="day-accordion-container">
+          <!-- Dynamically populated day cards -->
+        </div>
+      </div>
+
+      <!-- Tab 2: Visual Budget Breakdown -->
+      <div id="tab-budget" class="tab-pane">
+        <div class="tab-pane-header">
+          <div>
+            <h3>Visual Spending Breakdown & Feasibility</h3>
+            <p>Calculated distribution across transit, accommodations, dining, and activities.</p>
+          </div>
+          <div class="budget-total-pill" id="budgetTotalPill">
+            <span class="pill-sub">Estimated Total:</span>
+            <strong id="budgetTotalAmount">Calculating...</strong>
+          </div>
+        </div>
+
+        <div class="budget-dashboard">
+          <!-- Visual Distribution Bars -->
+          <div class="budget-bar-section">
+            <div class="budget-progress-track" id="budgetProgressTrack">
+              <div class="progress-bar-segment seg-flights" style="width: 35%;" title="Flights"></div>
+              <div class="progress-bar-segment seg-hotels" style="width: 30%;" title="Hotels"></div>
+              <div class="progress-bar-segment seg-activities" style="width: 20%;" title="Activities & Food"></div>
+              <div class="progress-bar-segment seg-buffer" style="width: 15%;" title="Buffer & Misc"></div>
+            </div>
+            <div class="budget-bar-legend">
+              <span class="legend-item"><span class="legend-color seg-flights"></span> Flights (<span id="pctFlights">35%</span>)</span>
+              <span class="legend-item"><span class="legend-color seg-hotels"></span> Hotels (<span id="pctHotels">30%</span>)</span>
+              <span class="legend-item"><span class="legend-color seg-activities"></span> Activities & Food (<span id="pctActivities">20%</span>)</span>
+              <span class="legend-item"><span class="legend-color seg-buffer"></span> Contingency Buffer (<span id="pctBuffer">15%</span>)</span>
+            </div>
+          </div>
+
+          <!-- Cards Grid for Category Details -->
+          <div class="budget-cards-grid" id="budgetCardsGrid"></div>
+
+          <div class="budget-raw-box markdown-glass" id="budgetRawContent"></div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Flights & Logistics -->
+      <div id="tab-flights" class="tab-pane">
+        <div class="tab-pane-header">
+          <div>
+            <h3>Flight Routes & Aviation Intelligence</h3>
+            <p>AviationStack verified schedules, typical airlines, duration, and airport guidance.</p>
+          </div>
+          <span class="agent-source-badge">✈️ AviationStack MCP</span>
+        </div>
+        <div class="flight-cards-container" id="flightCardsContainer">
+          <div class="markdown-glass" id="flightRawContent"></div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Hotels & Lodging -->
+      <div id="tab-hotels" class="tab-pane">
+        <div class="tab-pane-header">
+          <div>
+            <h3>Recommended Stays & Neighborhoods</h3>
+            <p>Curated accommodation options matching your travel style and budget parameters.</p>
+          </div>
+          <span class="agent-source-badge">🏨 Tavily MCP Verified</span>
+        </div>
+        <div class="hotel-cards-container" id="hotelCardsContainer">
+          <div id="hotelRawContent"></div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Weather & Packing -->
+      <div id="tab-weather" class="tab-pane">
+        <div class="tab-pane-header">
+          <div>
+            <h3>Climate Intelligence & Packing Advisory</h3>
+            <p>OpenWeatherMap live observations, multi-day forecasts, and seasonal gear recommendations.</p>
+          </div>
+          <span class="agent-source-badge">🌦️ OpenWeatherMap MCP</span>
+        </div>
+        <div class="weather-dashboard" id="weatherDashboard">
+          <div class="weather-summary-grid" id="weatherSummaryGrid"></div>
+          <div class="markdown-glass" id="weatherRawContent"></div>
+        </div>
+      </div>
+
+      <!-- Tab 6: Full Document / Markdown View (Refined Glass Card) -->
+      <div id="tab-full" class="tab-pane">
+        <div class="tab-pane-header">
+          <div>
+            <h3>Master Itinerary Document</h3>
+            <p>Complete multi-agent synthesis in a dark-mode glass card with restyled micro-tables.</p>
+          </div>
+          <button class="mini-btn" onclick="copyResult()">📋 Copy Full Text</button>
+        </div>
+        <div class="document-glass-card">
+          <div id="resultBox" class="result-box markdown-glass"></div>
+        </div>
+      </div>
+
+      <!-- Hidden PDF Export Container (Used solely for printing and saving crisp PDF) -->
       <div id="pdfContent" class="pdf-content">
         <div id="pdfHeader" class="pdf-header">
           <div class="pdf-header-main">
-            <span class="pdf-brand-tag">TripMate AI • Travel Itinerary</span>
+            <span class="pdf-brand-tag">TripMate AI • Autonomous Travel Itinerary</span>
             <h1 class="pdf-brand-title" id="pdfBrandTitle">Personalized Travel Plan</h1>
           </div>
           <div class="pdf-header-meta">
@@ -101,47 +413,108 @@
             <div id="pdfThreadBadge" class="pdf-meta-badge">Thread: -</div>
           </div>
         </div>
-        <div id="resultBox" class="result-box"></div>
+        <div id="pdfBody" class="pdf-body"></div>
         <div id="pdfFooter" class="pdf-footer">
           <span>Generated by TripMate AI</span>
-          <span>Autonomous Multi-Agent Travel Planner</span>
+          <span>FastAPI • LangGraph • Groq • FastMCP</span>
         </div>
       </div>
     </section>
 
-    <section id="approvalSection" class="approval-section hidden">
-      <div class="approval-icon">👤</div>
-      <div class="approval-content">
-        <span class="eyebrow">Human-in-the-Loop</span>
-        <h2>Review the draft itinerary</h2>
-        <p id="approvalRequest">
-          Approve the draft or provide feedback before the final plan is generated.
-        </p>
+    <!-- 2. Elevated Human-in-the-Loop Review Dock Placed Directly After Draft Plan -->
+    <section id="approvalSection" class="approval-dock glass-panel hidden">
+      <div class="approval-glow-bar"></div>
+      <div class="approval-inner">
+        <div class="approval-badge-row">
+          <div class="hitl-badge">
+            <span class="hitl-dot"></span> Human-in-the-Loop Review Required
+          </div>
+          <span class="hitl-state-text">Execution Paused via LangGraph Checkpoint</span>
+        </div>
 
-        <textarea
-          id="approvalFeedback"
-          class="feedback-input"
-          placeholder="Add revision feedback, for example: reduce the hotel cost and add one free day..."
-        ></textarea>
+        <div class="approval-body">
+          <div class="approval-avatar">
+            <span>👤</span>
+          </div>
+          <div class="approval-main">
+            <h3>Review & Refine Draft Itinerary</h3>
+            <p id="approvalRequest">
+              Inspect the draft plan above. You can approve it immediately to finalize or request targeted modifications.
+            </p>
 
-        <div class="approval-actions">
-          <button id="approveBtn" class="approve-btn" onclick="submitApproval(true)">
-            Approve & Generate Final
-          </button>
-          <button id="reviseBtn" class="revise-btn" onclick="submitApproval(false)">
-            Revise Using Feedback
-          </button>
+            <!-- Quick Action Chips for Fast Feedback -->
+            <div class="quick-feedback-bar">
+              <span class="quick-feedback-title">Quick Modifications:</span>
+              <div class="quick-feedback-chips">
+                <button type="button" class="quick-action-chip" onclick="applyQuickFeedback('Make it more budget-friendly and reduce luxury hotel costs')">
+                  💵 Budget-friendly
+                </button>
+                <button type="button" class="quick-action-chip" onclick="applyQuickFeedback('Add more free time and leisurely afternoon relaxation')">
+                  ☕ More Leisure Time
+                </button>
+                <button type="button" class="quick-action-chip" onclick="applyQuickFeedback('Swap luxury stay for authentic boutique or historic lodging')">
+                  🏮 Boutique / Historic Stays
+                </button>
+                <button type="button" class="quick-action-chip" onclick="applyQuickFeedback('Shorten the itinerary by 1 day and pack key highlights')">
+                  ⏱️ Shorten by 1 Day
+                </button>
+                <button type="button" class="quick-action-chip" onclick="applyQuickFeedback('Include more local authentic food and street market spots')">
+                  🍜 Street Food & Markets
+                </button>
+              </div>
+            </div>
+
+            <div class="feedback-input-wrapper">
+              <textarea
+                id="approvalFeedback"
+                class="feedback-input"
+                placeholder="Optional revision notes, e.g. 'Keep Day 2 lighter and recommend an afternoon tea near the river...'"
+                rows="2"
+              ></textarea>
+            </div>
+
+            <div class="approval-actions">
+              <button id="approveBtn" class="action-btn approve-btn" onclick="submitApproval(true)">
+                <span class="btn-text">
+                  <span>✓</span> Approve & Finalize Itinerary
+                </span>
+                <span class="btn-spinner hidden"></span>
+              </button>
+              <button id="reviseBtn" class="action-btn revise-btn" onclick="submitApproval(false)">
+                <span class="btn-text">
+                  <span>↺</span> Request Revisions
+                </span>
+                <span class="btn-spinner hidden"></span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="errorBox" class="error-box hidden"></section>
+    <!-- Error Toast & Box -->
+    <section id="errorBox" class="error-box hidden" role="alert"></section>
+
+    <!-- Notification Toast -->
+    <div id="toastNotification" class="toast-notification hidden">
+      <span id="toastIcon">📋</span>
+      <span id="toastMessage">Copied to clipboard!</span>
+    </div>
   </main>
 
-  <footer>
-    Built with FastAPI, LangGraph, Groq, PostgreSQL, Tavily, AviationStack and MCP
+  <!-- Clean Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <strong>TripMate AI</strong> — Autonomous Agentic Travel Architecture
+      </div>
+      <div class="footer-meta">
+        Built with FastAPI, LangGraph, Groq LPU, Neon PostgreSQL, AviationStack & OpenWeatherMap FastMCP
+      </div>
+    </div>
   </footer>
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="/static/script.js"></script>
 </body>
